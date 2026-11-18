@@ -1,0 +1,7 @@
+{
+  "name":"43-voice-screen", "version":"0.1.0", "private":true,
+  "description":"Sala privada de voz, chat y pantalla compartida para hasta 10 personas",
+  "scripts":{"start":"node server.js"},
+  "engines":{"node":">=18"},
+  "dependencies":{"ws":"^8.18.0"}
+}
