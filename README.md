@@ -1,24 +1,30 @@
-# 43 — Sala de voz y pantalla compartida
+# 43 — versión 3.0
 
-Prototipo web gratuito para hasta **10 personas por sala**, con micrófono, chat y pantalla compartida.
+Actualiza la versión 2.0 manteniendo la voz WebRTC, salas, chat, enlaces de invitación y pantalla compartida. Máximo **10 personas por sala**.
 
-## Probar en tu computador
+## Nuevas funciones
+- Transmisión con pantalla completa y pantalla central más grande; opciones de 480p/720p/1080p solicitadas al navegador.
+- Volumen individual de audio recibido (control de 0 a 100%; mover sobre 100 no amplifica). Estado de micrófono propio y de otras personas. No permite mutear remotamente el micrófono de otra persona.
+- Foto y nombre de perfil local, compartidos en la sala. El perfil local se guarda en el navegador.
+- Chat con emojis y adjuntos de imágenes, TXT o PDF de hasta 1 MB, **sin almacenamiento persistente**. Archivos y mensajes solo se envían en tiempo real a quienes estén conectados.
+- Soundboard con cuatro efectos sintetizados originales.
+- Salas opcionalmente protegidas por contraseña, cierre de sala y expulsar usuarios por el anfitrión. Contraseña introducida al entrar; no se guarda en el navegador.
+- Aplicación para Windows con Electron en la carpeta `windows/`, que reutiliza el servidor de Render.
 
-1. Instala **Node.js 18 o superior** desde https://nodejs.org/.
-2. Abre una terminal dentro de esta carpeta.
-3. Ejecuta `npm install` y luego `npm start`.
-4. Abre **http://localhost:3000** en Chrome o Edge.
-5. Escribe tu nombre y entra a una sala. Usa el botón «Copiar invitación» cuando publiques la web en un servidor.
+## Instalar y desplegar
+1. Copia `public/`, `server.js`, `README.md`, `package.json` y `windows/` en tu repositorio GitHub 43, reemplazando los archivos viejos. Deja el `package-lock.json` anterior si no se actualizan las dependencias.
+2. En GitHub Desktop verifica cambios, haz `Commit to main` y `Push origin`.
+3. En Render usa el mismo Web Service: `Build Command: npm install` y `Start Command: npm start`. Si está habilitado Auto Deploy, Render hará el despliegue. Revisa que diga Live.
+4. Recarga la página con Ctrl+F5 y prueba voz, pantalla y permisos con dos computadores.
 
-## Publicar en internet
+## Aplicación Windows
+Lee `windows/README.md`. No se instala a través de Render. Ejecuta `npm install` y `npm run dist` en tu computador dentro de `windows/`. La app te pedirá el enlace de tu propio Render la primera vez. No uses enlaces distintos al tuyo.
 
-Necesitas alojar este proyecto Node.js en un servicio que permita conexiones **WebSocket** y activar **HTTPS**. El servidor gratuito, si lo hay, puede tener suspensión, límite de uso y tráfico. El enlace `localhost` solo funciona en tu propio computador; **no se puede enviar a amigos fuera de tu PC**.
-
-## Importante
-
-- El límite de 10 usuarios se aplica **en el servidor, por cada sala**.
-- WebRTC usa malla entre participantes, por lo que 10 conexiones simultáneas con pantalla compartida pueden consumir mucho ancho de banda y causar retrasos.
-- Incluye un servidor público STUN, pero **no TURN**. Algunas redes pueden impedir conexiones directas, por lo que podría requerirse un TURN propio o de pago.
-- Para que funcione en otros computadores, necesitas HTTPS y un servidor accesible públicamente.
-- Es un prototipo sin cuentas, autenticación, moderación, cifrado adicional de chat ni almacenamiento persistente. Usa nombres de sala difíciles de adivinar si quieres algo de privacidad, pero no lo consideres seguro para información sensible.
-- Algunas capturas pueden requerir elegir una pestaña, ventana o pantalla en Chrome/Edge.
+## Limitaciones importantes
+- Los adjuntos y mensajes no se guardan en una base de datos: si alguien se conecta tarde no verá mensajes anteriores.
+- Los controles de sala se guardan solo en memoria; una suspensión o reinicio de Render reinicia las salas.
+- Para atravesar redes restrictivas puede hacer falta un servidor TURN; el STUN de Google no garantiza conectividad universal.
+- El audio compartido de juegos/pestañas depende de las opciones del navegador y sistema operativo, y no está garantizado. El audio del micrófono no depende de esa opción.
+- Diez participantes simultáneos por sala es un **límite**, no garantía de buen rendimiento con 10 streams P2P.
+- Las contraseñas de sala no son equivalentes a autenticación segura: los anfitriones se asignan al primero que crea la sala, sin cuentas verificadas. No uses 43 para información sensible.
+- La app Windows necesita pruebas en el equipo real; Electron puede requerir gestión especial de `desktopCapturer` para pantalla compartida. Para esa función usa Chrome o Edge hasta verificarlo.

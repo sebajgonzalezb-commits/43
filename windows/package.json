@@ -1,0 +1,6 @@
+{
+ "name":"43-desktop","version":"3.0.0","private":true,"description":"43 para Windows","main":"main.js",
+ "scripts":{"start":"electron .","dist":"electron-builder --win nsis"},
+ "devDependencies":{"electron":"^33.4.0","electron-builder":"^25.1.8"},
+ "build":{"appId":"cl.cuarentaytres.desktop","productName":"43","directories":{"output":"dist"},"win":{"target":"nsis"}}
+}
